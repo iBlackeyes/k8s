@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: petclinic
+spec:
+    selector:
+        matchLabels:
+            app: petclinic
+    replicas: 1
+    minReadySeconds: 10
+    template:
+        metadata:
+            labels:
+                app: petclinic
+        spec:
+            containers:
+                - name: petclinic
+                  image: spring2go/spring-petclinic:1.0.0.RELEASE
+                  envFrom:
+                      - configMapRef:
+                          name: petclinic-config
+                  # 不在需要使用env，而是使用configMap来进行管理
+                  # env:
+                      # - name: SPRING_PROFILES_ACTIVE
+                        # value: mysql
+                      # - name: DATASOURCE_URL
+                        # value: jdbc:mysql://mysql/petclinic
+                      # - name: DATASOURCE_USERNAME
+                        # value: root
+                      # - name: DATASOURCE_PASSWORD
+                        # value: petclinic
+                      # - name: DATASOURCE_INIT_MODE
+                        # value: always
+
